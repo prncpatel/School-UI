@@ -1,0 +1,57 @@
+/* Form Base Styles */
+.form-input,
+.form-select,
+.form-textarea {
+  @apply block w-full rounded-md border-gray-300 shadow-sm text-sm
+    focus:border-blue-500 focus:ring-blue-500
+    dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100
+    dark:focus:border-blue-400 dark:focus:ring-blue-400
+    dark:placeholder-gray-400;
+}
+
+/* Select Specific Styles */
+.form-select {
+  @apply pr-10 cursor-pointer
+    bg-none
+    dark:bg-gray-800;
+}
+
+/* Input with Icon */
+.input-with-icon {
+  @apply pl-10;
+}
+
+/* Disabled State */
+.form-input:disabled,
+.form-select:disabled,
+.form-textarea:disabled {
+  @apply bg-gray-50 text-gray-500 cursor-not-allowed
+    dark:bg-gray-900 dark:text-gray-400 dark:border-gray-700;
+}
+
+/* Error State */
+.form-input.error,
+.form-select.error,
+.form-textarea.error {
+  @apply border-red-500 text-red-900
+    dark:border-red-500 dark:text-red-100;
+}
+
+/* Label */
+.form-label {
+  @apply block text-sm font-medium text-gray-700 mb-1
+    dark:text-gray-300;
+}
+
+/* Error Message */
+.form-error {
+  @apply mt-1 text-sm text-red-600
+    dark:text-red-400;
+}
+
+/* Focus Ring */
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2
+    focus:ring-blue-500
+    dark:focus:ring-blue-400 dark:focus:ring-offset-gray-800;
+} 
