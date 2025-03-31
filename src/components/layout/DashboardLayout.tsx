@@ -1,6 +1,6 @@
 import React, { useState, ReactNode } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { MenuIcon, XIcon, LogOutIcon, UserIcon, UsersIcon, BookOpenIcon, CalendarIcon, ClipboardListIcon, TruckIcon, LibraryIcon, DollarSignIcon, CalendarDaysIcon, LayoutDashboardIcon, SearchIcon, BellIcon } from 'lucide-react';
+import { MenuIcon, XIcon, LogOutIcon, UserIcon, UsersIcon, BookOpenIcon, CalendarIcon, ClipboardListIcon, TruckIcon, LibraryIcon, DollarSignIcon, CalendarDaysIcon, LayoutDashboardIcon, SearchIcon, BellIcon, CheckSquareIcon, WalletIcon } from 'lucide-react';
 import ThemeToggle from '../ui/ThemeToggle';
 
 interface User {
@@ -84,6 +84,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       path: '/fees',
       icon: <DollarSignIcon className="w-5 h-5" />,
       roles: ['admin', 'staff', 'student']
+    }, {
+      name: 'Attendance',
+      path: '/attendance',
+      icon: <CheckSquareIcon className="w-5 h-5" />,
+      roles: ['admin', 'teacher']
+    }, {
+      name: 'Salary',
+      path: '/salary',
+      icon: <WalletIcon className="w-5 h-5" />,
+      roles: ['admin']
     }];
     return [...commonItems, ...adminItems].filter(item => item.roles.includes(user.role || ''));
   };

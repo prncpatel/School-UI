@@ -155,10 +155,12 @@ const TransportList: React.FC = () => {
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
           Transport Routes
         </h1>
-        <Button>
-          <PlusIcon className="h-5 w-5 mr-2" />
-          Add Route
-        </Button>
+        <Link to="/transport/add">
+          <Button>
+            <PlusIcon className="h-5 w-5 mr-2" />
+            Add Route
+          </Button>
+        </Link>
       </div>
       <Card>
         <div className="flex flex-col md:flex-row justify-between mb-6 space-y-4 md:space-y-0 md:space-x-4">

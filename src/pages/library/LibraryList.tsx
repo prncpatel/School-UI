@@ -191,10 +191,12 @@ const LibraryList = () => {
     <div>
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Library</h1>
-        <Button>
-          <PlusIcon className="h-5 w-5 mr-2" />
-          Add Book
-        </Button>
+        <Link to="/library/add">
+          <Button>
+            <PlusIcon className="h-5 w-5 mr-2" />
+            Add Book
+          </Button>
+        </Link>
       </div>
       <Card>
         <div className="flex flex-col md:flex-row justify-between mb-6 space-y-4 md:space-y-0 md:space-x-4">
