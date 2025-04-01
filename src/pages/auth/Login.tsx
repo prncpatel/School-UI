@@ -57,8 +57,9 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     type="text"
                     id="username"
                     name="username"
-                    className="input pl-10 h-12"
+                    className="input pl-10 h-12 bg-transparent"
                     placeholder="Enter your username"
+                    autoComplete="off"
                     required
                   />
                 </div>
