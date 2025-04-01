@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import Card from '../../components/ui/Card';
-import { UsersIcon, UserIcon, BookOpenIcon, CalendarIcon, TruckIcon, LibraryIcon, DollarSignIcon, CalendarDaysIcon } from 'lucide-react';
+import { UsersIcon, UserIcon, BookOpenIcon, CalendarIcon, TruckIcon, LibraryIcon, DollarSignIcon, CalendarDaysIcon, ClipboardListIcon, CheckSquareIcon, WalletIcon, FileTextIcon, CalendarClockIcon } from 'lucide-react';
+import Calendar from '../../components/dashboard/Calendar';
+import '../../styles/calendar.css';
 
 const AdminDashboard = () => {
   const stats = [{
@@ -66,12 +68,12 @@ const AdminDashboard = () => {
     date: 'June 5, 2023',
     location: 'School Hall'
   }];
-  return <div>
+  return <div className="space-y-6">
       <h1 className="text-2xl font-semibold text-gray-900 dark:text-gray-100">Admin Dashboard</h1>
       <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
         Welcome to the school management portal
       </p>
-      <div className="mt-6 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => <Card key={index} className="overflow-hidden">
             <div className="flex items-center">
               <div className="flex-shrink-0">{stat.icon}</div>
@@ -101,92 +103,56 @@ const AdminDashboard = () => {
             </div>
           </Card>)}
       </div>
-      <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-2">
-        <Card>
-          <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-            Recent Activities
-          </h2>
-          <div className="mt-6 flow-root">
-            <ul className="-my-5 divide-y divide-gray-200 dark:divide-gray-700">
-              {recentActivities.map(activity => <li key={activity.id} className="py-4">
-                  <div className="flex items-center space-x-4">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm text-gray-800 dark:text-gray-200 truncate">
-                        {activity.activity}
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                        {activity.time} by {activity.user}
-                      </p>
-                    </div>
-                  </div>
-                </li>)}
-            </ul>
-          </div>
-          <div className="mt-6">
-            <Link 
-              to="/activities" 
-              className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
-            >
-              View all
-            </Link>
-          </div>
-        </Card>
-        <Card>
-          <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Upcoming Events</h2>
-          <div className="mt-6 flow-root">
-            <ul className="-my-5 divide-y divide-gray-200 dark:divide-gray-700">
-              {upcomingEvents.map(event => <li key={event.id} className="py-4">
-                  <div className="flex items-center space-x-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 relative">
+        <div className="lg:col-span-2 relative z-0">
+          <Calendar />
+        </div>
+        <div className="space-y-6 relative z-10">
+          <Card>
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Upcoming Events</h3>
+              <div className="space-y-4">
+                {upcomingEvents.map((event) => (
+                  <div key={event.id} className="flex items-start space-x-4">
                     <div className="flex-shrink-0">
-                      <CalendarDaysIcon className="h-6 w-6 text-blue-500 dark:text-blue-400" />
+                      <div className="h-10 w-10 rounded-full bg-primary-100 dark:bg-primary-900 flex items-center justify-center">
+                        <CalendarIcon className="h-5 w-5 text-primary-600 dark:text-primary-400" />
+                      </div>
                     </div>
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-medium text-gray-900 dark:text-gray-100 truncate">
-                        {event.title}
-                      </p>
-                      <p className="text-sm text-gray-500 dark:text-gray-400 truncate">
-                        {event.date} at {event.location}
-                      </p>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-900 dark:text-gray-100">{event.title}</h4>
+                      <p className="text-sm text-gray-500 dark:text-gray-400">{event.date} at {event.location}</p>
                     </div>
                   </div>
-                </li>)}
-            </ul>
-          </div>
-          <div className="mt-6">
-            <Link 
-              to="/events" 
-              className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 dark:border-gray-600 shadow-sm text-sm font-medium rounded-md text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700"
-            >
-              View all events
-            </Link>
-          </div>
-        </Card>
-      </div>
-      <div className="mt-8">
-        <Card>
-          <h2 className="text-lg font-medium text-gray-900 dark:text-gray-100">Quick Access</h2>
-          <div className="mt-6 grid grid-cols-2 gap-6 sm:grid-cols-3 md:grid-cols-4">
-            {[
-              { to: '/students', icon: <UsersIcon className="h-10 w-10 text-blue-500 dark:text-blue-400" />, label: 'Students' },
-              { to: '/teachers', icon: <UserIcon className="h-10 w-10 text-green-500 dark:text-green-400" />, label: 'Teachers' },
-              { to: '/subjects', icon: <BookOpenIcon className="h-10 w-10 text-yellow-500 dark:text-yellow-400" />, label: 'Subjects' },
-              { to: '/fees', icon: <DollarSignIcon className="h-10 w-10 text-red-500 dark:text-red-400" />, label: 'Fees' },
-              { to: '/library', icon: <LibraryIcon className="h-10 w-10 text-purple-500 dark:text-purple-400" />, label: 'Library' },
-              { to: '/transport', icon: <TruckIcon className="h-10 w-10 text-indigo-500 dark:text-indigo-400" />, label: 'Transport' }
-            ].map(item => (
-              <Link 
-                key={item.to}
-                to={item.to} 
-                className="col-span-1 flex flex-col items-center p-4 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-800"
-              >
-                {item.icon}
-                <div className="mt-2 text-sm font-medium text-gray-900 dark:text-gray-100">
-                  {item.label}
-                </div>
-              </Link>
-            ))}
-          </div>
-        </Card>
+                ))}
+              </div>
+            </div>
+          </Card>
+          <Card>
+            <div className="p-6">
+              <h3 className="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">Quick Actions</h3>
+              <div className="grid grid-cols-2 gap-4">
+                {[
+                  { name: 'Add Student', icon: UsersIcon, color: 'bg-blue-500', to: '/students/add' },
+                  { name: 'Add Teacher', icon: UserIcon, color: 'bg-green-500', to: '/teachers/add' },
+                  { name: 'Add Class', icon: CalendarIcon, color: 'bg-yellow-500', to: '/classes/add' },
+                  { name: 'Add Event', icon: CalendarDaysIcon, color: 'bg-purple-500', to: '/events/add' }
+                ].map((action) => (
+                  <Link
+                    key={action.name}
+                    to={action.to}
+                    className="relative z-20 flex flex-col items-center justify-center p-4 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200 transform hover:scale-105"
+                  >
+                    <div className={`p-2 rounded-lg ${action.color}`}>
+                      <action.icon className="h-6 w-6 text-white" />
+                    </div>
+                    <span className="mt-2 text-sm font-medium text-gray-700 dark:text-gray-300">{action.name}</span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </Card>
+        </div>
       </div>
     </div>;
 };
