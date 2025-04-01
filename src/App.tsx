@@ -43,6 +43,12 @@ import AddAttendance from './pages/attendance/AddAttendance';
 // Salary Pages
 import SalaryList from './pages/salary/SalaryList';
 import AddSalary from './pages/salary/AddSalary';
+// Assignment Pages
+import AssignmentsList from './pages/Assignments/AssignmentsList';
+import AddAssignment from './pages/Assignments/AddAssignment';
+// Leave Pages
+import LeavesList from './pages/Leaves/LeavesList';
+import AddLeave from './pages/Leaves/AddLeave';
 
 interface User {
   isAuthenticated: boolean;
@@ -111,7 +117,10 @@ export function App() {
           <Route path="/salary/add" element={renderProtectedRoute(<AddSalary />, ['admin'])} />
           <Route path="/activities" element={renderProtectedRoute(<EventsList />, ['admin'])} />
           <Route path="/schedule" element={renderProtectedRoute(<ClassList />, ['teacher'])} />
-          <Route path="/assignments" element={renderProtectedRoute(<ExamList />, ['teacher'])} />
+          <Route path="/assignments" element={renderProtectedRoute(<AssignmentsList />, ['admin', 'teacher', 'student'])} />
+          <Route path="/assignments/add" element={renderProtectedRoute(<AddAssignment />, ['admin', 'teacher'])} />
+          <Route path="/leaves" element={renderProtectedRoute(<LeavesList />, ['admin', 'teacher', 'staff'])} />
+          <Route path="/leaves/add" element={renderProtectedRoute(<AddLeave />, ['admin', 'teacher', 'staff'])} />
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>

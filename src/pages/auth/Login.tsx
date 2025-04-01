@@ -74,24 +74,13 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
                     <KeyIcon className="h-5 w-5 text-gray-400" />
                   </div>
                   <input
-                    type={showPassword ? 'text' : 'password'}
+                    type="password"
                     id="password"
                     name="password"
-                    className="input pl-10 pr-10 h-12"
+                    className="input pl-10 h-12"
                     placeholder="Enter your password"
                     required
                   />
-                  <button
-                    type="button"
-                    onClick={() => setShowPassword(!showPassword)}
-                    className="absolute inset-y-0 right-0 pr-3 flex items-center"
-                  >
-                    {showPassword ? (
-                      <EyeOffIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
-                    ) : (
-                      <EyeIcon className="h-5 w-5 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300" />
-                    )}
-                  </button>
                 </div>
               </div>
 

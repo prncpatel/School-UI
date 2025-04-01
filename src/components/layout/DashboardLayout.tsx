@@ -1,6 +1,6 @@
 import React, { useState, ReactNode } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { MenuIcon, XIcon, LogOutIcon, UserIcon, UsersIcon, BookOpenIcon, CalendarIcon, ClipboardListIcon, TruckIcon, LibraryIcon, DollarSignIcon, CalendarDaysIcon, LayoutDashboardIcon, SearchIcon, BellIcon, CheckSquareIcon, WalletIcon } from 'lucide-react';
+import { MenuIcon, XIcon, LogOutIcon, UserIcon, UsersIcon, BookOpenIcon, CalendarIcon, ClipboardListIcon, TruckIcon, LibraryIcon, DollarSignIcon, CalendarDaysIcon, LayoutDashboardIcon, SearchIcon, BellIcon, CheckSquareIcon, WalletIcon, FileTextIcon, CalendarClockIcon } from 'lucide-react';
 import ThemeToggle from '../ui/ThemeToggle';
 
 interface User {
@@ -64,6 +64,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       path: '/classes',
       icon: <CalendarIcon className="w-5 h-5" />,
       roles: ['admin', 'teacher']
+    }, {
+      name: 'Assignments',
+      path: '/assignments',
+      icon: <FileTextIcon className="w-5 h-5" />,
+      roles: ['admin', 'teacher', 'student']
+    }, {
+      name: 'Leaves',
+      path: '/leaves',
+      icon: <CalendarClockIcon className="w-5 h-5" />,
+      roles: ['admin', 'teacher', 'staff']
     }, {
       name: 'Exams',
       path: '/exams',
