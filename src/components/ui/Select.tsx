@@ -6,11 +6,12 @@ interface SelectProps extends React.SelectHTMLAttributes<HTMLSelectElement> {
   error?: string;
   icon?: React.ReactNode;
   fullWidth?: boolean;
-  className?: string;
+  onValueChange?: (value: string) => void;
+  placeholder?: string;
 }
 
 const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
-  ({ label, error, icon, fullWidth = false, className = '', children, ...props }, ref) => {
+  ({ label, error, icon, fullWidth = false, onValueChange, placeholder, className = '', children, ...props }, ref) => {
     return (
       <div className={`relative ${fullWidth ? 'w-full' : ''}`}>
         {label && (
@@ -43,8 +44,19 @@ const Select = React.forwardRef<HTMLSelectElement, SelectProps>(
               ${error ? 'border-red-500 dark:border-red-500' : 'border-gray-300 dark:border-gray-600'}
               ${className}
             `}
+            onChange={(e) => {
+              if (onValueChange) {
+                onValueChange(e.target.value);
+              }
+              props.onChange?.(e);
+            }}
             {...props}
           >
+            {placeholder && (
+              <option value="" disabled>
+                {placeholder}
+              </option>
+            )}
             {children}
           </select>
           <div className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
