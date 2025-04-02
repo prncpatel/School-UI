@@ -13,9 +13,11 @@ import StaffDashboard from './pages/dashboard/StaffDashboard';
 // Student Pages
 import StudentList from './pages/students/StudentList';
 import AddStudent from './pages/students/AddStudent';
+import StudentDetails from './pages/students/StudentDetails';
 // Teacher Pages
 import TeacherList from './pages/teachers/TeacherList';
 import AddTeacher from './pages/teachers/AddTeacher';
+import TeacherDetails from './pages/teachers/TeacherDetails';
 // Subject Pages
 import SubjectList from './pages/subjects/SubjectList';
 import AddSubject from './pages/subjects/AddSubject';
@@ -95,23 +97,25 @@ export function App() {
           )} />
           <Route path="/students" element={renderProtectedRoute(<StudentList />, ['admin', 'teacher'])} />
           <Route path="/students/add" element={renderProtectedRoute(<AddStudent />, ['admin'])} />
-          <Route path="/teachers" element={renderProtectedRoute(<TeacherList />, ['admin'])} />
+          <Route path="/students/:id" element={renderProtectedRoute(<StudentDetails />, ['admin', 'teacher', 'student'])} />
+          <Route path="/teachers" element={renderProtectedRoute(<TeacherList />, ['admin', 'teacher'])} />
           <Route path="/teachers/add" element={renderProtectedRoute(<AddTeacher />, ['admin'])} />
+          <Route path="/teachers/:id" element={renderProtectedRoute(<TeacherDetails />, ['admin', 'teacher'])} />
           <Route path="/subjects" element={renderProtectedRoute(<SubjectList />, ['admin', 'teacher'])} />
-          <Route path="/subjects/add" element={renderProtectedRoute(<AddSubject />, ['admin'])} />
+          <Route path="/subjects/add" element={renderProtectedRoute(<AddSubject />, ['admin', 'teacher'])} />
           <Route path="/classes" element={renderProtectedRoute(<ClassList />, ['admin', 'teacher'])} />
-          <Route path="/classes/add" element={renderProtectedRoute(<AddClass />, ['admin'])} />
+          <Route path="/classes/add" element={renderProtectedRoute(<AddClass />, ['admin', 'teacher'])} />
           <Route path="/exams" element={renderProtectedRoute(<ExamList />, ['admin', 'teacher', 'student'])} />
           <Route path="/exams/add" element={renderProtectedRoute(<AddExam />, ['admin', 'teacher'])} />
-          <Route path="/library" element={renderProtectedRoute(<LibraryList />)} />
-          <Route path="/library/add" element={renderProtectedRoute(<AddLibrary />, ['admin'])} />
-          <Route path="/transport" element={renderProtectedRoute(<TransportList />)} />
-          <Route path="/transport/add" element={renderProtectedRoute(<AddTransport />, ['admin'])} />
+          <Route path="/library" element={renderProtectedRoute(<LibraryList />, ['admin', 'teacher', 'student'])} />
+          <Route path="/library/add" element={renderProtectedRoute(<AddLibrary />, ['admin', 'teacher'])} />
+          <Route path="/transport" element={renderProtectedRoute(<TransportList />, ['admin', 'staff', 'student'])} />
+          <Route path="/transport/add" element={renderProtectedRoute(<AddTransport />, ['admin', 'staff'])} />
           <Route path="/fees" element={renderProtectedRoute(<FeesList />, ['admin', 'staff', 'student'])} />
           <Route path="/fees/add" element={renderProtectedRoute(<AddFees />, ['admin', 'staff'])} />
-          <Route path="/events" element={renderProtectedRoute(<EventsList />)} />
-          <Route path="/events/add" element={renderProtectedRoute(<AddEvent />, ['admin'])} />
-          <Route path="/attendance" element={renderProtectedRoute(<AttendanceList />, ['admin', 'teacher'])} />
+          <Route path="/events" element={renderProtectedRoute(<EventsList />, ['admin', 'teacher', 'student', 'staff'])} />
+          <Route path="/events/add" element={renderProtectedRoute(<AddEvent />, ['admin', 'teacher'])} />
+          <Route path="/attendance" element={renderProtectedRoute(<AttendanceList />, ['admin', 'teacher', 'student'])} />
           <Route path="/attendance/add" element={renderProtectedRoute(<AddAttendance />, ['admin', 'teacher'])} />
           <Route path="/salary" element={renderProtectedRoute(<SalaryList />, ['admin'])} />
           <Route path="/salary/add" element={renderProtectedRoute(<AddSalary />, ['admin'])} />
