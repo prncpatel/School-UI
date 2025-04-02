@@ -88,7 +88,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       name: 'Transport',
       path: '/transport',
       icon: <TruckIcon className="w-5 h-5" />,
-      roles: ['admin', 'staff', 'student']
+      roles: ['admin', 'staff']
     }, {
       name: 'Library',
       path: '/library',
@@ -98,7 +98,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       name: 'Fees',
       path: '/fees',
       icon: <DollarSignIcon className="w-5 h-5" />,
-      roles: ['admin', 'staff', 'student']
+      roles: ['admin', 'staff']
     }, {
       name: 'Attendance',
       path: '/attendance',
@@ -110,6 +110,42 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
       icon: <WalletIcon className="w-5 h-5" />,
       roles: ['admin']
     }];
+
+    const studentItems = [{
+      name: 'Assignments',
+      path: '/assignments',
+      icon: <FileTextIcon className="w-5 h-5" />,
+      roles: ['student']
+    }, {
+      name: 'Exams',
+      path: '/exams',
+      icon: <ClipboardListIcon className="w-5 h-5" />,
+      roles: ['student']
+    }, {
+      name: 'Library',
+      path: '/library',
+      icon: <LibraryIcon className="w-5 h-5" />,
+      roles: ['student']
+    }, {
+      name: 'Fees',
+      path: '/fees',
+      icon: <DollarSignIcon className="w-5 h-5" />,
+      roles: ['student']
+    }, {
+      name: 'Transport',
+      path: '/transport',
+      icon: <TruckIcon className="w-5 h-5" />,
+      roles: ['student']
+    }, {
+      name: 'Attendance',
+      path: '/attendance',
+      icon: <CheckSquareIcon className="w-5 h-5" />,
+      roles: ['student']
+    }];
+
+    if (user.role === 'student') {
+      return [...commonItems, ...studentItems];
+    }
     return [...commonItems, ...adminItems].filter(item => item.roles.includes(user.role || ''));
   };
 

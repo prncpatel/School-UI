@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Table from '../../components/ui/Table';
 import Card from '../../components/ui/Card';
 import Button from '../../components/ui/Button';
@@ -21,6 +21,7 @@ interface Teacher {
 const TeacherList = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filter, setFilter] = useState('all');
+  const navigate = useNavigate();
   const teachers = [{
     id: 1,
     name: 'Dr. Robert Johnson',
@@ -140,7 +141,11 @@ const TeacherList = () => {
     accessor: 'actions',
     render: (value: unknown, row: Teacher) => (
       <div className="flex space-x-2">
-        <Button variant="secondary" size="sm">
+        <Button 
+          variant="secondary" 
+          size="sm"
+          onClick={() => navigate(`/teachers/${row.id}`)}
+        >
           View
         </Button>
         <Button variant="primary" size="sm">
