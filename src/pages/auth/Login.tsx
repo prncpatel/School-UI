@@ -14,6 +14,7 @@ const Login: React.FC<LoginProps> = ({ onLogin }) => {
     e.preventDefault();
     if (role) {
       onLogin(role);
+      // The navigation will be handled by the App component's route logic
     }
   };
 

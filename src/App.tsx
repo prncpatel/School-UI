@@ -14,6 +14,7 @@ import StaffDashboard from './pages/dashboard/StaffDashboard';
 import StudentList from './pages/students/StudentList';
 import AddStudent from './pages/students/AddStudent';
 import StudentDetails from './pages/students/StudentDetails';
+import StudentPromotion from './pages/students/StudentPromotion';
 // Teacher Pages
 import TeacherList from './pages/teachers/TeacherList';
 import AddTeacher from './pages/teachers/AddTeacher';
@@ -42,6 +43,7 @@ import AddEvent from './pages/events/AddEvent';
 // Attendance Pages
 import AttendanceList from './pages/attendance/AttendanceList';
 import AddAttendance from './pages/attendance/AddAttendance';
+import CheckAttendance from './pages/attendance/CheckAttendance';
 // Salary Pages
 import SalaryList from './pages/salary/SalaryList';
 import AddSalary from './pages/salary/AddSalary';
@@ -51,6 +53,9 @@ import AddAssignment from './pages/Assignments/AddAssignment';
 // Leave Pages
 import LeavesList from './pages/Leaves/LeavesList';
 import AddLeave from './pages/Leaves/AddLeave';
+// Notice Pages
+import NoticeBoard from './pages/notices/NoticeBoard';
+import AddNotice from './pages/notices/AddNotice';
 
 interface User {
   isAuthenticated: boolean;
@@ -98,6 +103,7 @@ export function App() {
           <Route path="/students" element={renderProtectedRoute(<StudentList />, ['admin', 'teacher'])} />
           <Route path="/students/add" element={renderProtectedRoute(<AddStudent />, ['admin'])} />
           <Route path="/students/:id" element={renderProtectedRoute(<StudentDetails />, ['admin', 'teacher', 'student'])} />
+          <Route path="/students/promotion" element={renderProtectedRoute(<StudentPromotion />, ['admin'])} />
           <Route path="/teachers" element={renderProtectedRoute(<TeacherList />, ['admin', 'teacher'])} />
           <Route path="/teachers/add" element={renderProtectedRoute(<AddTeacher />, ['admin'])} />
           <Route path="/teachers/:id" element={renderProtectedRoute(<TeacherDetails />, ['admin', 'teacher'])} />
@@ -117,6 +123,7 @@ export function App() {
           <Route path="/events/add" element={renderProtectedRoute(<AddEvent />, ['admin', 'teacher'])} />
           <Route path="/attendance" element={renderProtectedRoute(<AttendanceList />, ['admin', 'teacher', 'student'])} />
           <Route path="/attendance/add" element={renderProtectedRoute(<AddAttendance />, ['admin', 'teacher'])} />
+          <Route path="/attendance/check" element={renderProtectedRoute(<CheckAttendance />, ['admin', 'teacher', 'student'])} />
           <Route path="/salary" element={renderProtectedRoute(<SalaryList />, ['admin'])} />
           <Route path="/salary/add" element={renderProtectedRoute(<AddSalary />, ['admin'])} />
           <Route path="/activities" element={renderProtectedRoute(<EventsList />, ['admin'])} />
@@ -125,6 +132,8 @@ export function App() {
           <Route path="/assignments/add" element={renderProtectedRoute(<AddAssignment />, ['admin', 'teacher'])} />
           <Route path="/leaves" element={renderProtectedRoute(<LeavesList />, ['admin', 'teacher', 'staff'])} />
           <Route path="/leaves/add" element={renderProtectedRoute(<AddLeave />, ['admin', 'teacher', 'staff'])} />
+          <Route path="/notices" element={renderProtectedRoute(<NoticeBoard />, ['admin', 'teacher', 'student', 'staff'])} />
+          <Route path="/notices/add" element={renderProtectedRoute(<AddNotice />, ['admin', 'teacher'])} />
           <Route path="/" element={<Navigate to="/login" replace />} />
           <Route path="*" element={<Navigate to="/login" replace />} />
         </Routes>

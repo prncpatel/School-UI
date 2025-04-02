@@ -1,6 +1,6 @@
 import React, { useState, ReactNode } from 'react';
 import { useNavigate, Link, useLocation } from 'react-router-dom';
-import { MenuIcon, XIcon, LogOutIcon, UserIcon, UsersIcon, BookOpenIcon, CalendarIcon, ClipboardListIcon, TruckIcon, LibraryIcon, DollarSignIcon, CalendarDaysIcon, LayoutDashboardIcon, SearchIcon, BellIcon, CheckSquareIcon, WalletIcon, FileTextIcon, CalendarClockIcon } from 'lucide-react';
+import { MenuIcon, XIcon, LogOutIcon, UserIcon, UsersIcon, BookOpenIcon, CalendarIcon, ClipboardListIcon, TruckIcon, LibraryIcon, DollarSignIcon, CalendarDaysIcon, LayoutDashboardIcon, SearchIcon, BellIcon, CheckSquareIcon, WalletIcon, FileTextIcon, CalendarClockIcon, ChevronDownIcon, ChevronRightIcon, UserPlusIcon, ListIcon, ArrowUpRightIcon, MegaphoneIcon } from 'lucide-react';
 import ThemeToggle from '../ui/ThemeToggle';
 
 interface User {
@@ -14,6 +14,18 @@ interface DashboardLayoutProps {
   onLogout: () => void;
 }
 
+interface NavigationItem {
+  name: string;
+  path: string;
+  icon: React.ReactNode;
+  roles: string[];
+  submenu?: {
+    name: string;
+    path: string;
+    icon: React.ReactNode;
+  }[];
+}
+
 const DashboardLayout: React.FC<DashboardLayoutProps> = ({
   children,
   user,
@@ -21,6 +33,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
 }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -32,124 +45,285 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
     setIsCollapsed(!isCollapsed);
   };
 
+  const toggleMenu = (menuName: string) => {
+    setExpandedMenus(prev => 
+      prev.includes(menuName) 
+        ? prev.filter(item => item !== menuName)
+        : [...prev, menuName]
+    );
+  };
+
   const handleLogout = () => {
     onLogout();
     navigate('/login');
   };
 
-  const getNavItems = () => {
-    const commonItems = [{
+  const navigation: NavigationItem[] = [
+    {
       name: 'Dashboard',
       path: '/dashboard',
-      icon: <LayoutDashboardIcon className="w-5 h-5" />,
+      icon: <LayoutDashboardIcon className="h-5 w-5" />,
       roles: ['admin', 'teacher', 'student', 'staff']
-    }, {
-      name: 'Events',
-      path: '/events',
-      icon: <CalendarDaysIcon className="w-5 h-5" />,
-      roles: ['admin', 'teacher', 'student', 'staff']
-    }];
-    const adminItems = [{
+    },
+    {
       name: 'Students',
       path: '/students',
-      icon: <UsersIcon className="w-5 h-5" />,
-      roles: ['admin', 'teacher']
-    }, {
+      icon: <UsersIcon className="h-5 w-5" />,
+      roles: ['admin', 'teacher'],
+      submenu: [
+        {
+          name: 'Student List',
+          path: '/students',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Student Details',
+          path: '/students/details',
+          icon: <UserIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Student',
+          path: '/students/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Student Promotion',
+          path: '/students/promotion',
+          icon: <ArrowUpRightIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
       name: 'Teachers',
       path: '/teachers',
-      icon: <UserIcon className="w-5 h-5" />,
-      roles: ['admin']
-    }, {
+      icon: <UserIcon className="h-5 w-5" />,
+      roles: ['admin'],
+      submenu: [
+        {
+          name: 'Teacher List',
+          path: '/teachers',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Teacher Details',
+          path: '/teachers/details',
+          icon: <UserIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Teacher',
+          path: '/teachers/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
       name: 'Subjects',
       path: '/subjects',
-      icon: <BookOpenIcon className="w-5 h-5" />,
-      roles: ['admin', 'teacher']
-    }, {
+      icon: <BookOpenIcon className="h-5 w-5" />,
+      roles: ['admin', 'teacher'],
+      submenu: [
+        {
+          name: 'Subject List',
+          path: '/subjects',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Subject',
+          path: '/subjects/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
       name: 'Classes',
       path: '/classes',
-      icon: <CalendarIcon className="w-5 h-5" />,
-      roles: ['admin', 'teacher']
-    }, {
-      name: 'Assignments',
-      path: '/assignments',
-      icon: <FileTextIcon className="w-5 h-5" />,
-      roles: ['admin', 'teacher', 'student']
-    }, {
-      name: 'Leaves',
-      path: '/leaves',
-      icon: <CalendarClockIcon className="w-5 h-5" />,
-      roles: ['admin', 'teacher', 'staff']
-    }, {
+      icon: <CalendarIcon className="h-5 w-5" />,
+      roles: ['admin', 'teacher'],
+      submenu: [
+        {
+          name: 'Class List',
+          path: '/classes',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Class',
+          path: '/classes/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
       name: 'Exams',
       path: '/exams',
-      icon: <ClipboardListIcon className="w-5 h-5" />,
-      roles: ['admin', 'teacher', 'student']
-    }, {
-      name: 'Transport',
-      path: '/transport',
-      icon: <TruckIcon className="w-5 h-5" />,
-      roles: ['admin', 'staff']
-    }, {
+      icon: <ClipboardListIcon className="h-5 w-5" />,
+      roles: ['admin', 'teacher', 'student'],
+      submenu: [
+        {
+          name: 'Exam List',
+          path: '/exams',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Exam',
+          path: '/exams/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
       name: 'Library',
       path: '/library',
-      icon: <LibraryIcon className="w-5 h-5" />,
-      roles: ['admin', 'teacher', 'student']
-    }, {
+      icon: <LibraryIcon className="h-5 w-5" />,
+      roles: ['admin', 'teacher', 'student'],
+      submenu: [
+        {
+          name: 'Book List',
+          path: '/library',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Book',
+          path: '/library/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
+      name: 'Transport',
+      path: '/transport',
+      icon: <TruckIcon className="h-5 w-5" />,
+      roles: ['admin', 'staff', 'student'],
+      submenu: [
+        {
+          name: 'Route List',
+          path: '/transport',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Route',
+          path: '/transport/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
       name: 'Fees',
       path: '/fees',
-      icon: <DollarSignIcon className="w-5 h-5" />,
-      roles: ['admin', 'staff']
-    }, {
+      icon: <DollarSignIcon className="h-5 w-5" />,
+      roles: ['admin', 'staff', 'student'],
+      submenu: [
+        {
+          name: 'Fee List',
+          path: '/fees',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Fee',
+          path: '/fees/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
+      name: 'Events',
+      path: '/events',
+      icon: <CalendarDaysIcon className="h-5 w-5" />,
+      roles: ['admin', 'teacher', 'student', 'staff'],
+      submenu: [
+        {
+          name: 'Event List',
+          path: '/events',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Event',
+          path: '/events/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
       name: 'Attendance',
       path: '/attendance',
-      icon: <CheckSquareIcon className="w-5 h-5" />,
-      roles: ['admin', 'teacher']
-    }, {
+      icon: <CheckSquareIcon className="h-5 w-5" />,
+      roles: ['admin', 'teacher', 'student'],
+      submenu: [
+        {
+          name: 'Attendance List',
+          path: '/attendance',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Mark Attendance',
+          path: '/attendance/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Check Attendance',
+          path: '/attendance/check',
+          icon: <ClipboardListIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
       name: 'Salary',
       path: '/salary',
-      icon: <WalletIcon className="w-5 h-5" />,
-      roles: ['admin']
-    }];
-
-    const studentItems = [{
+      icon: <WalletIcon className="h-5 w-5" />,
+      roles: ['admin'],
+      submenu: [
+        {
+          name: 'Salary List',
+          path: '/salary',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Salary',
+          path: '/salary/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
       name: 'Assignments',
       path: '/assignments',
-      icon: <FileTextIcon className="w-5 h-5" />,
-      roles: ['student']
-    }, {
-      name: 'Exams',
-      path: '/exams',
-      icon: <ClipboardListIcon className="w-5 h-5" />,
-      roles: ['student']
-    }, {
-      name: 'Library',
-      path: '/library',
-      icon: <LibraryIcon className="w-5 h-5" />,
-      roles: ['student']
-    }, {
-      name: 'Fees',
-      path: '/fees',
-      icon: <DollarSignIcon className="w-5 h-5" />,
-      roles: ['student']
-    }, {
-      name: 'Transport',
-      path: '/transport',
-      icon: <TruckIcon className="w-5 h-5" />,
-      roles: ['student']
-    }, {
-      name: 'Attendance',
-      path: '/attendance',
-      icon: <CheckSquareIcon className="w-5 h-5" />,
-      roles: ['student']
-    }];
-
-    if (user.role === 'student') {
-      return [...commonItems, ...studentItems];
+      icon: <FileTextIcon className="h-5 w-5" />,
+      roles: ['admin', 'teacher', 'student'],
+      submenu: [
+        {
+          name: 'Assignment List',
+          path: '/assignments',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Assignment',
+          path: '/assignments/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        }
+      ]
+    },
+    {
+      name: 'Notices',
+      path: '/notices',
+      icon: <MegaphoneIcon className="h-5 w-5" />,
+      roles: ['admin', 'teacher', 'student', 'staff'],
+      submenu: [
+        {
+          name: 'Notice Board',
+          path: '/notices',
+          icon: <ListIcon className="h-4 w-4" />
+        },
+        {
+          name: 'Add Notice',
+          path: '/notices/add',
+          icon: <UserPlusIcon className="h-4 w-4" />
+        }
+      ]
     }
-    return [...commonItems, ...adminItems].filter(item => item.roles.includes(user.role || ''));
-  };
+  ];
 
-  const navItems = getNavItems();
+  const filteredNavigation = navigation.filter(item => 
+    item.roles.includes(user.role || '')
+  );
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800 transition-colors duration-300">
@@ -171,22 +345,49 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         >
           <div className="flex-1 h-0 pt-5 pb-4 overflow-y-auto">
             <nav className="mt-2 px-3 space-y-2">
-              {navItems.map(item => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    location.pathname === item.path
-                      ? 'bg-primary-50 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
-                  }`}
-                  onClick={toggleSidebar}
-                >
-                  <span className="text-gray-400 dark:text-gray-500 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
-                    {item.icon}
-                  </span>
-                  <span className="ml-3">{item.name}</span>
-                </Link>
+              {filteredNavigation.map(item => (
+                <div key={item.name} className="mb-2">
+                  <div
+                    className={`flex items-center justify-between px-3 py-2 rounded-md cursor-pointer ${
+                      location.pathname === item.path || location.pathname.startsWith(item.path + '/')
+                        ? 'bg-primary-50 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
+                    }`}
+                    onClick={() => item.submenu && toggleMenu(item.name)}
+                  >
+                    <div className="flex items-center">
+                      <span className="text-gray-400 dark:text-gray-500 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
+                        {item.icon}
+                      </span>
+                      <span className="ml-3">{item.name}</span>
+                    </div>
+                    {item.submenu && (
+                      expandedMenus.includes(item.name) ? 
+                        <ChevronDownIcon className="h-4 w-4" /> : 
+                        <ChevronRightIcon className="h-4 w-4" />
+                    )}
+                  </div>
+                  {item.submenu && expandedMenus.includes(item.name) && (
+                    <div className="ml-6 mt-2 space-y-1">
+                      {item.submenu.map((subItem) => (
+                        <Link
+                          key={subItem.path}
+                          to={subItem.path}
+                          className={`flex items-center px-3 py-2 text-sm rounded-md ${
+                            location.pathname === subItem.path
+                              ? 'bg-primary-50 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400'
+                              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                          }`}
+                        >
+                          <span className="text-gray-400 dark:text-gray-500 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
+                            {subItem.icon}
+                          </span>
+                          <span className="ml-3">{subItem.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </nav>
           </div>
@@ -207,21 +408,52 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({
         <div className="flex-1 flex flex-col min-h-0 border-r border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 transition-colors duration-300">
           <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
             <nav className="mt-2 px-3 space-y-2">
-              {navItems.map(item => (
-                <Link
-                  key={item.name}
-                  to={item.path}
-                  className={`group flex items-center px-3 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    location.pathname === item.path
-                      ? 'bg-primary-50 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400'
-                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
-                  }`}
-                >
-                  <span className="text-gray-400 dark:text-gray-500 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
-                    {item.icon}
-                  </span>
-                  <span className={`ml-3 whitespace-nowrap transition-opacity duration-200 ${isCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>{item.name}</span>
-                </Link>
+              {filteredNavigation.map(item => (
+                <div key={item.name} className="mb-2">
+                  <div
+                    className={`flex items-center justify-between px-3 py-2 rounded-md cursor-pointer ${
+                      location.pathname === item.path || location.pathname.startsWith(item.path + '/')
+                        ? 'bg-primary-50 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400'
+                        : 'text-gray-600 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 hover:text-gray-900 dark:hover:text-white'
+                    }`}
+                    onClick={() => item.submenu && toggleMenu(item.name)}
+                  >
+                    <Link
+                      to={item.path}
+                      className="flex items-center flex-1"
+                    >
+                      <span className="text-gray-400 dark:text-gray-500 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
+                        {item.icon}
+                      </span>
+                      <span className={`ml-3 whitespace-nowrap transition-opacity duration-200 ${isCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>{item.name}</span>
+                    </Link>
+                    {item.submenu && (
+                      expandedMenus.includes(item.name) ? 
+                        <ChevronDownIcon className="h-4 w-4" /> : 
+                        <ChevronRightIcon className="h-4 w-4" />
+                    )}
+                  </div>
+                  {item.submenu && expandedMenus.includes(item.name) && (
+                    <div className="ml-6 mt-2 space-y-1">
+                      {item.submenu.map((subItem) => (
+                        <Link
+                          key={subItem.path}
+                          to={subItem.path}
+                          className={`flex items-center px-3 py-2 text-sm rounded-md ${
+                            location.pathname === subItem.path
+                              ? 'bg-primary-50 dark:bg-primary-900/50 text-primary-600 dark:text-primary-400'
+                              : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700'
+                          }`}
+                        >
+                          <span className="text-gray-400 dark:text-gray-500 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-200">
+                            {subItem.icon}
+                          </span>
+                          <span className={`ml-3 whitespace-nowrap transition-opacity duration-200 ${isCollapsed ? 'opacity-0 hidden' : 'opacity-100'}`}>{subItem.name}</span>
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
               ))}
             </nav>
           </div>
